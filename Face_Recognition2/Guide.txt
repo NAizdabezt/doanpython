@@ -11,3 +11,5 @@ VD: trong file faces có chứa 5 khuôn mặt D.Trump, E.Musk, J.Biden, Obama, 
 --> Khi chạy nhận dạng, tui đưa ảnh ElonMusk thì nhận dạng được ElonMusk
 --> Khi đưa ảnh C.Ronaldo vì chưa có trong faces nên không nhận dạng được
 ( kết quả khi chạy tui có chụp màn hình lại để trong folder result )
+
+* Cài thư viên face_recognition với numpy là đủ rồi
