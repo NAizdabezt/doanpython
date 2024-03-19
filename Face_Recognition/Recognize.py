@@ -8,7 +8,7 @@ import numpy as np
 net = cv2.dnn.readNetFromCaffe('./models/deploy.prototxt.txt',
                                './models/res10_300x300_ssd_iter_140000_fp16.caffemodel')
 
-dir = 'C:/Python/ComputerVision/Project6' # đổi lại thành đường dẫn tới tệp cha của file face_encodings
+# dir = 'C:/Python/ComputerVision/Project6'
 
 # Load các đặc trưng từ tệp numpy
 face_encodings = np.load('./face_encodings.npy')
@@ -40,7 +40,7 @@ while True:
     faces = net.forward()
 
     h, w = frame.shape[:2]
-    if identity == "none":
+    if identity == "none" or identity == 'unknown' or identity == []:
         cv2.putText(frame, "Press Space to recognize", (10, 40), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255, 0, 255), 2)
     else:
         cv2.putText(frame, "Press k then Space to stop", (10, 40), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255, 0, 255), 2)
@@ -67,10 +67,17 @@ while True:
                 if len(face_encodings) > 0:
                     predicted_labels = svm_classifier.predict(face_encodings)
                     for label in predicted_labels:
-                        # Xác định danh tính hoặc lớp của khuôn mặt dựa vào nhãn
-                        identity = label_mapping[label]
-                        # Hiển thị kết quả
-                        print("Predicted identity:", identity)
+                        if label in label_mapping:
+                            # Khuôn mặt được phát hiện và nằm trong số khuôn mặt đã được SVM huấn luyện
+                            identity = label_mapping[label]
+                            print("Predicted identity:", identity)
+                        else:
+                            # Khuôn mặt được phát hiện nhưng không được SVM huấn luyện
+                            identity = "none"
+                            print("Face detected but not recognized.")
+
+                else:
+                    predicted_labels = np.array([-1])
 
 
             cv2.imshow('Face Recognizer', frame)

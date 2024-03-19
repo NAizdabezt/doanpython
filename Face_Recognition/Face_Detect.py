@@ -5,8 +5,6 @@ import time
 net = cv2.dnn.readNetFromCaffe('./models/deploy.prototxt.txt',
                                './models/res10_300x300_ssd_iter_140000_fp16.caffemodel')
 
-# dir = 'C:/Python/ComputerVision/Project6' # đổi lại thành đường dẫn tới tệp cha của tệp dataset
-
 cam = cv2.VideoCapture(0)
 
 count = 0

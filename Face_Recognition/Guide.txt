@@ -1,13 +1,33 @@
-1. Chạy Face_Detect.py để phát hiện khuôn mặt ( đừng chạy
+1. Cài đặt các thư viện cần thiết:
+- Mở terminal ( trong VS code có sẵn ) hoặc cmd của máy nhập lệnh cài các thư viện sau:
++ OpenCV: pip install opencv-python
++ Numpy: pip install numpy
++ Face_Recogniton: pip install face_recognition
++ Sklearn: pip install scikit-learn
+--> Nếu cài đặt có xảy ra lỗi thì copy lỗi lên gg tìm cách cài các thư viện trên nhe ( thường Stack
+Overflow có hướng dẫn cách cài / sửa lỗi )
+
+2. Kiểm tra đường dẫn thư mục:
+- Vì mình dùng model để nhận diện phân tích khuôn mặt nên các file Python tui có để đường dẫn
+ tới mấy model, nhưng mà là các đường dẫn tương đối ( để tương thích với máy mọi người ), nếu chạy không được
+ chương trình báo lỗi không tìm thấy file model hoặc không đọc được thì phải đổi lại thành đường dẫn tuyệt đối
+ để thử coi có lỗi hay không
+
+
+3. Chạy Face_Detect.py để phát hiện khuôn mặt ( đừng chạy
 vì tui đã chạy lấy ảnh khuôn mặt rồi ), tui để đây để biết thứ tự )
 
-2. Chạy Encode_Faces.py để mã hóa tất cả khuôn mặt,
+4. Chạy Encode_Faces.py để mã hóa tất cả khuôn mặt,
 chương trình sẽ lưu dữ liệu khuôn mặt vô file
-face_encodings.npy
+face_encodings.npy ( cái này cũng hong cần phải chạy )
 
-3. Chạy Recognize.py để SVM vừa train tất cả khuôn mặt
+5. Chạy Recognize.py để SVM vừa train tất cả khuôn mặt
 trong file face_encodings.npy vừa nhận diện khuôn mặt trên
 webcam ( 1: mặt tui, 2: Obama, 3: ElonMusk, 4: JoeBiden,
 5: C.Ronaldo ) nên khi chạy file này thì lấy ảnh của mấy
 ông này trên mạng đưa lên webcam rồi nhấn space để chương
-trình nhận diện là ai
+trình nhận diện là ai ( nhấn k rồi nhấn Space để ngưng nhận diện )
+
+* Nhận diện được khuôn mặt thành viên đã được huấn luyện nhưng hiện tại
+ một khuôn mặt tương đồng với các khuôn mặt thành viên dù chưa được huấn luyện
+ vẫn chưa thể nhận diện là khách lạ ( nói chung là chưa nhận diện được khách lạ ) 
