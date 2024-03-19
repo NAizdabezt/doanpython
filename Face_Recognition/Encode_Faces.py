@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 import os
 
-dataset_dir = 'C:/Python/ComputerVision/Project6/dataset' # đổi lại thành đường dẫn tới tệp dataset
+dataset_dir = './dataset' # đổi lại thành đường dẫn tới tệp dataset
 
 # Hàm để trích xuất và mã hóa các đặc trưng khuôn mặt từ các hình ảnh
 def encode_faces(dataset_dir):

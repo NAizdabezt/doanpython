@@ -11,7 +11,7 @@ net = cv2.dnn.readNetFromCaffe('./models/deploy.prototxt.txt',
 dir = 'C:/Python/ComputerVision/Project6' # đổi lại thành đường dẫn tới tệp cha của file face_encodings
 
 # Load các đặc trưng từ tệp numpy
-face_encodings = np.load(dir + '/face_encodings.npy')
+face_encodings = np.load('./face_encodings.npy')
 
 labels = []
 for i in range(1,6):

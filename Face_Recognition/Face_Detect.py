@@ -5,7 +5,7 @@ import time
 net = cv2.dnn.readNetFromCaffe('./models/deploy.prototxt.txt',
                                './models/res10_300x300_ssd_iter_140000_fp16.caffemodel')
 
-dir = 'C:/Python/ComputerVision/Project6' # đổi lại thành đường dẫn tới tệp cha của tệp dataset
+# dir = 'C:/Python/ComputerVision/Project6' # đổi lại thành đường dẫn tới tệp cha của tệp dataset
 
 cam = cv2.VideoCapture(0)
 
@@ -38,7 +38,7 @@ while True:
             cv2.imshow('Face Detector', frame)
             if cv2.waitKey(1) == ord(' '):
                 count += 1
-                cv2.imwrite(dir + f'/dataset/{count}.jpg', frame[start_y: end_y, start_x: end_x])
+                cv2.imwrite(f'./dataset/{count}.jpg', frame[start_y: end_y, start_x: end_x])
 
     key = cv2.waitKey(10)
     if count >= 5:
