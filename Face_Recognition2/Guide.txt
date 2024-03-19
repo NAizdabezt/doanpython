@@ -1,0 +1,13 @@
+File nhận diện khuôn mặt này là cách nhận diện khuôn mặt thứ 2 của tui
+Cách này đơn giản hơn nhiều, chỉ cần lưu vài tấm khuôn mặt của từng người
+Rồi chạy nhận diện khuôn mặt, nếu mặt trên webcam giống khuôn mặt nào
+trong file ảnh trên 50% thì sẽ nhận diện là người đó, còn không thì nhận diện
+là " unknown"
+
+--> Cách này có thể nhận diện được cả khách đã là thành viên lẫn khách
+chưa phải là thành viên, nhưng độ chính xác nhận diện khuôn mặt thì thấp hơn
+
+VD: trong file faces có chứa 5 khuôn mặt D.Trump, E.Musk, J.Biden, Obama, ThaiTuan
+--> Khi chạy nhận dạng, tui đưa ảnh ElonMusk thì nhận dạng được ElonMusk
+--> Khi đưa ảnh C.Ronaldo vì chưa có trong faces nên không nhận dạng được
+( kết quả khi chạy tui có chụp màn hình lại để trong folder result )

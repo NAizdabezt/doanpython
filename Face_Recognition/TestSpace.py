@@ -25,7 +25,7 @@ cam = cv2.VideoCapture(0)
 label_mapping = {1: "ThaiTuan", 2: "ElonMusk", 3: "Obama", 4: "JoeBiden", 5: "C.Ronaldo"}
 
 # Thiết lập ngưỡng cho độ tương đồng
-threshold = 0.8
+threshold = 1.0
 
 # Biến lưu trạng thái chương trình
 stat = 1
