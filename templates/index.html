@@ -4,8 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="style.css">
     <title>Product Management</title>
     <style>
+        *{
+            box-sizing:border-box;
+        }
+        body{
+            background-image: linear-gradient(90deg, #FFB13C, purple);
+        }
         form label, button{
             font-size:18px;
         }
@@ -17,7 +24,7 @@
         #productForm{
             font-weight: bold;
             padding:10px;
-            background-color: orange;
+            background-color: lightgreen;
         }
         th{
             border: 0px solid black !important;
@@ -29,9 +36,24 @@
             width: 200px;
             height: 50px;
             font-size:18px;
+            text-align: center;
         }
         table th,tr,td:hover{
             background-color:#DDD;
+        }
+        td .fix-btn{
+            background-color:orange;
+        }
+        td .delete-btn{
+            background-color:red;
+        }
+        td button[type=button]{
+            width: 40%;
+            border:2px solid black;
+            border-radius: 4px;
+            padding: 5px;
+            font-size:16px;
+            font-weight:bold;
         }
     </style>
 </head>
@@ -51,18 +73,20 @@
 
     <table>
         <tr>
-            <th>
-                Sản phẩm
-            </th>
+            <th>Sản phẩm</th>
+            <th>Giá</th>
+            <th>Thao tác</th>
         </tr>
-
-        <tr>
         {% for product in products %}
+        <tr>
+            <td> {{ product[1] }} </td>
+            <td> ${{ product[2] }}</td>
             <td>
-            {{ product[1] }} - ${{ product[2] }}
+                <button type="button" class="fix-btn"><i class="fa fa-pencil"></i> Sửa</button>
+                <button type="button" class="delete-btn"><i class="fa fa-trash"></i> Xóa</button>
             </td>
-        {% endfor %}
         </tr>
+        {% endfor %}    
     </table>
 
     <script>

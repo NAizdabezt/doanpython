@@ -1,0 +1,27 @@
+form label, button{
+    font-size:18px;
+}
+form input, button{
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 5px;
+}
+#productForm{
+    font-weight: bold;
+    padding:10px;
+    background-color: orange;
+}
+th{
+    border: 0px solid black !important;
+}
+table th,tr,td{
+    background-color:#FFF;
+    border: 2px solid black;
+    border-radius: 5px;
+    width: 200px;
+    height: 50px;
+    font-size:18px;
+}
+table th,tr,td:hover{
+    background-color:#DDD;
+}

@@ -54,6 +54,8 @@ def home():
     products = cursor.fetchall()
     conn.close()
     return render_template('index.html', products=products)
+# sao link css không được nhỉ
+
 
 @app.route('/add', methods=['POST'])
 def add_product():
