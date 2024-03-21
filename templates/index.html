@@ -17,7 +17,7 @@
             font-size:18px;
         }
         form input, button{
-            border: 1px solid black;
+            border: 2px solid black;
             border-radius: 5px;
             padding: 5px;
         }
@@ -29,13 +29,16 @@
         th{
             border: 0px solid black !important;
         }
+        table{
+            width:100%;
+        }
         table th,tr,td{
             background-color:#FFF;
             border: 2px solid black;
             border-radius: 5px;
             width: 200px;
             height: 50px;
-            font-size:18px;
+            font-size:20px;
             text-align: center;
         }
         table th,tr,td:hover{
@@ -55,6 +58,9 @@
             font-size:16px;
             font-weight:bold;
         }
+        .os{
+            width:25%;
+        }
     </style>
 </head>
 <body>
@@ -69,7 +75,7 @@
         <button type="submit" id="productForm"><i class="fa fa-cart-plus"></i> Add Product</button>
     </form>
     <hr>
-    <h2>Products:</h2>
+    <h1>Products:</h1>
 
     <table>
         <tr>
@@ -81,7 +87,7 @@
         <tr>
             <td> {{ product[1] }} </td>
             <td> ${{ product[2] }}</td>
-            <td>
+            <td class="os">
                 <button type="button" class="fix-btn"><i class="fa fa-pencil"></i> Sửa</button>
                 <button type="button" class="delete-btn"><i class="fa fa-trash"></i> Xóa</button>
             </td>
