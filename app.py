@@ -72,7 +72,7 @@ def add_product():
         conn.close()
         return jsonify({"message": "Data received successfully"})
     
-    return redirect(url_for('index'))
+    # return redirect(url_for('index'))
 
 
 @app.route('/delete/<int:product_id>', methods=['DELETE'])

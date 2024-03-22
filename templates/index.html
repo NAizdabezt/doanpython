@@ -4,15 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/main.css">
     <title>Product Management</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins');
         *{
             box-sizing:border-box;
-            font-family: 'Lato', sans-serif;
-            font-weight: 300;
+            font-family: 'Poppins', sans-serif;
+            font-weight: bold;
         }
-        body, html{
+        body, html{ 
             padding:0;
             margin:0;
             background-image: linear-gradient(90deg, #FFB13C, purple);
@@ -28,6 +29,13 @@
             background-image: linear-gradient(170deg, #FFB13C, purple);
             color:black;
             font-weight: normal;
+            display:flex;
+            justify-content: space-between;
+        }
+        .logout-btn{
+            border:none;
+            background-image: linear-gradient(90deg, orange, yellow);
+            color:black;
         }
         .header{
             margin-left: 20px;
@@ -45,7 +53,7 @@
             position: absolute;
             z-index: 1;
             background-image: linear-gradient(170deg, #FFB13C, purple);
-            min-width: 400px;
+            min-width: 450px;
             box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
         }
         .dropdown-content a {
@@ -148,13 +156,17 @@
 <body>
     <div class="nav-bar">
         <div class="dropdown">
-            <h1 class="header"><i class="fa fa-list dropbtn"></i> Product Management</h1>
+            <h1 class="header"><i class="fa fa-bars dropbtn"></i> Product Management</h1>
             <div class="dropdown-content">
                 <a href="#"><i class="fa fa-user"></i> Customer Management</a>
                 <a href="#"><i class="fa fa-signal"></i> Business Management</a>
                 <a href="#"><i class="fa fa-gear"></i> Account Management</a>
+                <a href="#"><i class="fa fa-comment"></i> Test Chatbot</a>
             </div>
         </div>
+        
+        <button class="logout-btn"><i class="fa fa-power-off"></i> Logout</button>
+       
     </div>
     </div class="content">
         <form method="POST" action="/add">
@@ -222,7 +234,7 @@
             .then(response => response.json())
             .then(data => {
                 alert(data.message); // In ra thông báo từ server
-                location.reload(); // Tải lại trang sau khi thêm sản phẩm thành công
+                //location.reload(); // Tải lại trang sau khi thêm sản phẩm thành công
             })
             .catch(error => console.error("Error:", error));
         });
