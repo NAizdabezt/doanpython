@@ -74,6 +74,16 @@ def add_product():
     
     return redirect(url_for('index'))
 
+
+@app.route('/delete/<int:product_id>', methods=['DELETE'])
+def delete_product(product_id):
+    conn = sqlite3.connect('my_database.db')
+    cursor = conn.cursor()
+    cursor.execute('DELETE FROM products WHERE id = ?', (product_id,))
+    conn.commit()
+    conn.close()
+    return jsonify({"message": "Delete product successful"})
+
 if __name__ == '__main__':
     app.run(debug=True)
 
