@@ -10,13 +10,13 @@
         @import url('https://fonts.googleapis.com/css2?family=Poppins');
         *{
             box-sizing:border-box;
-            font-family: 'Times New Roman', sans-serif;
-            font-weight: bold;
+            font-family: 'Roboto', Sans-serif;
+            font-weight: 300;
         }
         body, html{ 
             padding:0;
             margin:0;
-            background-image: linear-gradient(90deg, #fe483c ,   #32d3df);
+            background-color:#FFF;
             height:2000px;
         }
         .nav-bar{
@@ -26,16 +26,17 @@
             top:0;
             left: 0;
             margin-bottom: 30px;
-            background-image: linear-gradient(90deg, #fe483c ,   #32d3df);
-            color:black;
+            background-color: #060270;
+            color:#FFF;
             font-weight: normal;
             display:flex;
             justify-content: space-between;
         }
         .logout-btn{
             border:none;
-            background-image: linear-gradient(90deg, #fe483c ,   #32d3df);
-            color:black;
+            background-color: #060270;
+            color:#FFF;
+            margin-right:20px;
         }
         .header{
             margin-left: 20px;
@@ -52,13 +53,14 @@
             display: none;
             position: absolute;
             z-index: 1;
-            background-image: linear-gradient(90deg, #fe483c ,   #32d3df);
+           /* background-image: linear-gradient(90deg, #fe483c ,   #32d3df); */
+            background-color: #060270;
             min-width: 450px;
             box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
         }
         .dropdown-content a {
             padding-left:25px;
-            color: black;
+            color: white;
             text-decoration: none;
             display: block;
             font-size:30px;
@@ -67,7 +69,7 @@
             padding-top:25px;
           }
         .dropdown-content a:hover {
-            background-image: linear-gradient(90deg, #fe483c ,   #32d3df);
+            background-color: #060270;
         }
         .dropdown:hover .dropdown-content {
         display: block;
@@ -129,10 +131,11 @@
             text-align: center;
         }
         table th,tr,td:hover{
-            background-color:#DDD;
+            background-color:rgb(255, 206, 44);
         }
-        td .fix-btn{
+        td .edit-btn{
             background-color:orange;
+            margin-right: 5px;
         }
         td .delete-btn{
             background-color:red;
@@ -151,6 +154,72 @@
         .tableFrame{
             border:2px solid black;
         }
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1; 
+            padding-top: 100px; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgb(0,0,0); 
+            background-color: rgba(0,0,0,0.4); 
+          }
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            width: 40%;
+            border-radius: 10px 10px 0px 0px;
+        }
+          /* The Close Button */
+        .closeEdit {
+            color: #000;
+            float: right;
+            font-size: 34px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .closeEdit:hover,.closeEdit:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .modal-form .form-container{
+            width:90%;
+            margin-top:30px;
+            margin-bottom: 20px;
+        }
+        .modal-form{
+            display:flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-form .form-group input{
+            margin-right:10px;
+            font-size:18px;
+        }
+        .modal-info{
+            background-color: rgb(255, 206, 44);
+            height:20%;
+            font-size:24px;
+            font-weight: bold;
+            border-radius: 10px 10px 0px 0px;
+            padding:15px;
+        }
+        #confirm-btn{
+            max-height:200px;
+            background-color: rgb(255, 206, 44);
+        }
+        #confirm-btn:hover{
+            background-color: #060270;
+        }
+        #confirm-btn:active{
+            background-color: #DDD;
+        }
+          
     </style>
 </head>
 <body>
@@ -180,7 +249,7 @@
                     <input type="text" id="price" name="price" required><br><br>
                 </div>
                 <div class="form-group">
-                    <label for="price">Product Number:</label>
+                    <label for="number">Product Number:</label>
                     <input type="text" id="number" name="number" required><br><br>
                 </div>
                 <button type="submit" id="productForm"><i class="fa fa-cart-plus"></i> Add Product</button>
@@ -188,6 +257,37 @@
         </form>
         <div id ="message"></div>
         <h1 class="header">Products:</h1>
+
+<!-- MODAL BOX-->
+        <div class="modal" id="myModal">
+            <div class="modal-content">
+                
+                <div class="modal-info">
+                    <span class="closeEdit">&times;</span>
+                    <i class="fa fa-file" style="margin-left:5px"></i> Edit product information
+                 </div>
+                
+                <form class="modal-form"> 
+                    <div class="form-container">
+                        <div class="form-group">
+                            <label for="name">Product ID:</label>
+                            <input type="text" id="modal-productID">
+                        </div>
+                        <div class="form-group">
+                            <label for="price">Product Name:</label>
+                            <input type="text" id="modal-productName">
+                        </div>
+                        <div class="form-group">
+                            <label for="number">Product Price:</label>
+                            <input type="text" id="modal-productPrice">
+                        </div>
+                        <button type="button" id="confirm-btn"> Confirm <i class="fa fa-check"></i></button>
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
+
 
         <div class="tableFrame">
             <table>
@@ -203,7 +303,7 @@
                     <td class="productInfo"> {{ product[1] }} </td>
                     <td class="unitPrice"> ${{ product[2] }}</td>
                     <td class="os">
-                        <button type="button" class="fix-btn" data-product-id="{{ product[0] }}"><i class="fa fa-pencil"></i> Edit</button>
+                        <button type="button" class="edit-btn" data-product-id="{{ product[0] }}"><i class="fa fa-pencil"></i> Edit</button>
                         <button type="button" class="delete-btn" data-product-id="{{ product[0] }}"><i class="fa fa-trash"></i> Delete</button>
                        
                     </td>
@@ -213,6 +313,7 @@
         </div>
 
     <script>
+
         // Lắng nghe sự kiện submit của biểu mẫu
         document.getElementById("productForm").addEventListener("submit", function(event) {
             event.preventDefault(); // Ngăn chặn hành động mặc định của form
@@ -260,7 +361,7 @@
                                 row.remove();
                                 return response.json();
                             }
-                            throw new Error('Product delete successfully');
+                            throw new Error('Product delete failure');
                             // in ra alert cho biết thành công
                         })
                         .then(data => {
@@ -274,6 +375,52 @@
                 });
             });
         });
+
+
+        
+        var editModal = document.getElementById("myModal")
+        function setProductInfo(id,name,price){
+            var productIdInput = document.getElementById("modal-productID");
+            var productNameInput = document.getElementById("modal-productName");
+            var productPriceInput = document.getElementById("modal-productPrice");
+        
+            productIdInput.value = id;
+            productNameInput.value = name;
+            productPriceInput.value = price;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var fixButtons = document.querySelectorAll(".edit-btn");
+            fixButtons.forEach(function(button) {
+                button.addEventListener('click', function() {
+                    var row = this.closest('tr');
+                    var productID = row.querySelector('.productID').textContent; // Lấy dữ liệu từ thẻ có class là productID
+                    var productName = row.querySelector('.productInfo').textContent; // Lấy dữ liệu từ thẻ có class là productInfo
+                    var productPrice = row.querySelector('.unitPrice').textContent; // Lấy dữ liệu từ thẻ có class là unitPrice
+                    editModal.style.display = "block";
+                    // Hiển thị thông tin của sản phẩm
+                    setProductInfo(productID, productName, productPrice);
+                })
+
+            })
+        })
+
+        window.onclick = function(event) {
+            if (event.target == editModal){
+                editModal.style.display = "none";
+          }
+        }
+
+        var span = document.getElementsByClassName("closeEdit")[0];
+        span.onclick = function() {
+            editModal.style.display = "none";
+        }
+
+        confirmButton = document.getElementById("confirm-btn")
+        confirmButton.addEventListener('click', function(){
+            editModal.style.display = "none";
+        })
+
     </script>
 </body>
 </html>
