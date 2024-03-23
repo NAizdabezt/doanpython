@@ -203,7 +203,9 @@
                     <td class="productInfo"> {{ product[1] }} </td>
                     <td class="unitPrice"> ${{ product[2] }}</td>
                     <td class="os">
+                        <button type="button" class="fix-btn" data-product-id="{{ product[0] }}"><i class="fa fa-pencil"></i> Edit</button>
                         <button type="button" class="delete-btn" data-product-id="{{ product[0] }}"><i class="fa fa-trash"></i> Delete</button>
+                       
                     </td>
                 </tr>
                 {% endfor %}    
