@@ -211,3 +211,22 @@ td button[type=button]{
     background-color: #DDD;
 }
   
+.login-container{
+    margin: auto;
+    margin-top: 100px;
+    width:30%;
+    text-align: center;
+    border:2px solid black;
+
+}
+
+.login-container > form{
+    display:flex;
+    flex-direction: column;
+    row-gap: 1.0rem;
+    margin:40px;
+}
+
+.login-container > h1{
+    margin-bottom: 40px;
+}

@@ -1,6 +1,12 @@
 import sqlite3
 from flask import Flask, render_template, request, redirect, url_for
 from flask import jsonify
+from Face_Recognition2 import face_recog
+import cv2
+import face_recognition
+import os
+import numpy as np
+import threading
 
 app = Flask(__name__)
 
@@ -45,16 +51,27 @@ def store_data():
     
     return jsonify({"message": "Data stored successfully"})
 
+# @app.route('/')
+# def home():
+#     # Truy vấn tất cả sản phẩm từ cơ sở dữ liệu và hiển thị trên trang
+#     conn = sqlite3.connect('my_database.db')
+#     cursor = conn.cursor()
+#     cursor.execute('SELECT * FROM products')
+#     products = cursor.fetchall()
+#     conn.close()
+#     return render_template('index.html', products=products)
+# sao link css không được nhỉ
+
 @app.route('/')
 def home():
     # Truy vấn tất cả sản phẩm từ cơ sở dữ liệu và hiển thị trên trang
-    conn = sqlite3.connect('my_database.db')
-    cursor = conn.cursor()
-    cursor.execute('SELECT * FROM products')
-    products = cursor.fetchall()
-    conn.close()
-    return render_template('index.html', products=products)
-# sao link css không được nhỉ
+    # conn = sqlite3.connect('my_database.db')
+    # cursor = conn.cursor()
+    # cursor.execute('SELECT * FROM products')
+    # products = cursor.fetchall()
+    # conn.close()
+    return render_template('login.html')
+
 
 
 @app.route('/add', methods=['POST'])
@@ -100,6 +117,28 @@ def render_business():
 def render_account():
     return render_template('account.html')
 
+@app.route('/login')
+def login_account():
+    return render_template('login.html')
+
+@app.route('/recognize')
+def login_face_recognition():
+    result,name = face_recog()
+    if result == True:
+        # Truy vấn tất cả sản phẩm từ cơ sở dữ liệu và hiển thị trên trang
+        conn = sqlite3.connect('my_database.db')
+        cursor = conn.cursor()
+        cursor.execute('SELECT * FROM products')
+        products = cursor.fetchall()
+        conn.close()
+        return render_template('index.html', noti=f"Xin chào {name}", products=products)
+    else:
+        # Nếu không nhận diện được khuôn mặt sau 5 giây, hiển thị thông báo thất bại
+        threading.Timer(5.0, login_failure).start()
+
+def login_failure():
+    return "Đăng nhập thất bại"
+    
 
 if __name__ == '__main__':
     app.run(debug=True)

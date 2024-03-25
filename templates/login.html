@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static', filename='styles/style.css')}}">
+    <title>Document</title>
+</head>
+<body>
+    <div class="login-container">
+        <h1> LOGIN </h1>
+        <form class="login-form">
+                <label for="name">Name: </label>
+                <input type="text" >
+           
+                <label for="password">Password: </label>
+                <input type="password" >
+            <button type="submit">Login</button>
+            <a style="text-align: left; color:red; cursor:pointer;" href="{{url_for('login_face_recognition')}}">Use Face_Recognition</a>
+        </form>
+    </div>
+    
+</body>
+</html>
