@@ -84,6 +84,11 @@ def delete_product(product_id):
     conn.close()
     return jsonify({"message": "Delete product successful"})
 
+@app.route('/chatbot')
+def render_chatbot():
+    return render_template('chatbot.html')
+
+
 if __name__ == '__main__':
     app.run(debug=True)
     

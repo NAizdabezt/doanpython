@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins');
 *{
     box-sizing:border-box;
-    font-family: 'Roboto', Sans-serif;
-    font-weight: 300;
+    font-family: 'Tahoma', Sans-serif;
+    font-weight: 100;
 }
 body, html{ 
     padding:0;
@@ -60,7 +60,7 @@ body, html{
     padding-top:25px;
   }
 .dropdown-content a:hover {
-    background-color: #060270;
+    background-color: #493c3c;
 }
 .dropdown:hover .dropdown-content {
 display: block;
