@@ -80,7 +80,7 @@ form input, button{
 #productForm{
     font-weight: bold;
     padding:10px;
-    background-color: lightgreen;
+    background-color:rgb(255, 206, 44);
 }
 .form-container{
     width:30%;
@@ -122,14 +122,14 @@ table th,tr,td{
     text-align: center;
 }
 table th,tr,td:hover{
-    background-color:rgb(255, 206, 44);
+    background-color:#DDD;
 }
 td .edit-btn{
-    background-color:orange;
+    background-color:rgb(255, 206, 44);
     margin-right: 5px;
 }
 td .delete-btn{
-    background-color:red;
+    background-color:rgb(255, 206, 44);
 }
 td button[type=button]{
     width: 40%;

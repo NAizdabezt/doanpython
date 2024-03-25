@@ -88,6 +88,18 @@ def delete_product(product_id):
 def render_chatbot():
     return render_template('chatbot.html')
 
+@app.route('/customer')
+def render_customer():
+    return render_template('customer.html')
+
+@app.route('/business')
+def render_business():
+    return render_template('business.html')
+
+@app.route('/account')
+def render_account():
+    return render_template('account.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)

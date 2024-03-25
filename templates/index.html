@@ -12,9 +12,9 @@
         <div class="dropdown">
             <h1 class="header"><i class="fa fa-bars dropbtn"></i> Product Management</h1>
             <div class="dropdown-content">
-                <a href="#"><i class="fa fa-user"></i> Customer Management</a>
-                <a href="#"><i class="fa fa-signal"></i> Business Management</a>
-                <a href="#"><i class="fa fa-gear"></i> Account Management</a>
+                <a href="{{url_for('render_customer')}}"><i class="fa fa-user"></i> Customer Management</a>
+                <a href="{{url_for('render_business')}}"><i class="fa fa-signal"></i> Business Management</a>
+                <a href="{{url_for('render_account')}}"><i class="fa fa-gear"></i> Account Management</a>
                 <a href="{{url_for('render_chatbot')}}"><i class="fa fa-comment"></i> Test Chatbot</a>
             </div>
         </div>
