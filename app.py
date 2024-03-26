@@ -1,33 +1,89 @@
-import sqlite3
-from flask import Flask, render_template, request, redirect, url_for, jsonify
+from flask import Flask, render_template, request, redirect, session, url_for, jsonify, flash
+from datetime import timedelta
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from templates.models import db
+from templates.models import Product 
+
 
 app = Flask(__name__)
+app.secret_key = "your_secret_key"
+app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql+pymysql://root:12345678@localhost/my_database?charset=utf8mb4'
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
+app.permanent_session_lifetime = timedelta(minutes=10)
+db = SQLAlchemy(app=app)
 
-# Hàm kết nối đến cơ sở dữ liệu
-def connect_db():
-    conn = sqlite3.connect('my_database.db')
-    cursor = conn.cursor()
-    return conn, cursor
+# Tạo một engine để kết nối đến cơ sở dữ liệu
+engine = create_engine('mysql+pymysql://root:12345678@localhost/my_database?charset=utf8mb4')
+
+# Tạo một sessionmaker để tạo session
+Session = sessionmaker(bind=engine)
+
+
+# # Thiết lập điều kiện chuyển hướng trước mỗi request
+# @app.before_request
+# def require_login():
+#     if 'logged_in' not in session and request.endpoint not in ['login', 'static']:
+#         return redirect(url_for('login'))
+        
+@app.route('/')
+def log():
+    return render_template("home.html")
 
 # Route để lưu dữ liệu từ biểu mẫu
 @app.route('/api/data', methods=['POST'])
 def store_data():
     data = request.json
-    
-    conn, cursor = connect_db()
-    cursor.execute("INSERT INTO products (name, price, quantity) VALUES (?, ?, ?)", (data['name'], data['price'], data['quantity']))
-    conn.commit()
-    conn.close()
-    
+    product = Product(name=data['name'], price=data['price'], quantity=data['quantity'])
+    db.session.add(product)
+    db.session.commit()
     return jsonify({"message": "Data stored successfully"})
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        session.permanent = True
+        con, cursor = connect_db()
+        cursor.execute('SELECT * FROM staffaccounts WHERE account=? AND password=?', (username, password))
+        match = cursor.fetchone()
+        con.close()
+        if match:
+            session['logged_in'] = True
+            return redirect(url_for('home'))
+        else:
+            flash('Invalid username or password', 'error')  # Thêm thông điệp lỗi vào flash
+            return redirect(url_for('login'))
+    return render_template('login.html')
+
+@app.route('/logout')
+def log_out():
+    session.pop("logged_in",False)
+    return redirect(url_for("login"))
+
+@app.route('/index')
+def index():
+    if 'logged_in' in session and session['logged_in']:
+        # Đã đăng nhập, chuyển hướng đến trang index hoặc trang chính của ứng dụng
+        return render_template('index.html')  # hoặc chuyển hướng đến trang chính của ứng dụng
+    else:
+        # Chưa đăng nhập, chuyển hướng đến trang đăng nhập
+        return redirect(url_for('login'))
+        
 # Route chính để hiển thị trang chính và danh sách sản phẩm
-@app.route('/')
+@app.route('/home')
 def home():
-    conn, cursor = connect_db()
-    cursor.execute('SELECT * FROM products')
-    products = cursor.fetchall()
-    conn.close()
+    # Tạo một session để truy vấn cơ sở dữ liệu
+    session = Session()
+
+    # Truy vấn cơ sở dữ liệu để lấy danh sách sản phẩm
+    products = session.query(Product).all()
+
+    # Đóng session sau khi sử dụng
+    session.close()
+
     return render_template('index.html', products=products)
 
 @app.route('/add', methods=['POST'])
@@ -54,7 +110,7 @@ def add_product():
             cursor.execute('UPDATE products SET quantity = ? WHERE id = ?', (new_quantity, id))
             conn.commit()
             conn.close()
-            return jsonify({"message": "Quantity increased successfully"})
+            return redirect(url_for('home'))
         else:
             # Sản phẩm chưa tồn tại, thêm hàng mới
             conn = sqlite3.connect('my_database.db')
@@ -63,7 +119,7 @@ def add_product():
             conn.commit()
             conn.close()
                 
-            return jsonify({"message": "Data received successfully"})
+            return redirect(url_for('home'))
     
     return redirect(url_for('index'))
 
@@ -83,11 +139,7 @@ def check_duplicate():
     data = request.json
     id = data['id']
     name = data['name']
-    
-    conn, cursor = connect_db()
-    cursor.execute('SELECT * FROM products WHERE id=? AND name=?', (id, name))
-    product = cursor.fetchone()
-    conn.close()
+    product = Product.query.filter_by(id=id, name=name).first()
     
     duplicate = False
     matching_name = False
@@ -104,25 +156,24 @@ def increase_quantity(id):
     data = request.json
     quantity = data['quantity']
     
-    conn, cursor = connect_db()
-    cursor.execute('UPDATE products SET quantity=quantity+? WHERE id=?', (quantity, id))
-    conn.commit()
-    conn.close()
-    
-    return jsonify({"message": "Quantity increased successfully"})
+    product = Product.query.get(id)
+    if product:
+        product.quantity += quantity
+        db.session.commit()
+        return jsonify({"message": "Quantity increased successfully"})
+    else:
+        return jsonify({"error": "Product not found"}), 404
 
 # Route để tự động điền Name và Price khi nhập ID
 @app.route('/get_product_info/<int:id>', methods=['GET'])
 def get_product_info(id):
-    conn, cursor = connect_db()
-    cursor.execute('SELECT name, price FROM products WHERE id=?', (id,))
-    product_info = cursor.fetchone()
-    conn.close()
-
-    if product_info:
-        return jsonify({"id": id, "name": product_info[0], "price": product_info[1]})
+    product = Product.query.get(id)
+    if product:
+        return jsonify({"id": id, "name": product.name, "price": product.price})
     else:
-        return jsonify({"error": "Product not found"}), 404
+        return jsonify({"error": "Product not found", "id": id, "name": "", "price": ""}), 404
 
 if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()
     app.run(debug=True)

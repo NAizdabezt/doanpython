@@ -74,9 +74,11 @@
         .then(data => {
             console.log(data.message); // In ra thông báo từ server
             // Cập nhật danh sách sản phẩm trên trang
-            location.reload(); // Tải lại trang sau khi thêm sản phẩm thành công
+            location.reload(); 
+            // Tải lại trang sau khi thêm sản phẩm thành công
         })
         .catch(error => console.error("Error:", error));
+        
     });
     });
 
@@ -84,7 +86,7 @@
             button.addEventListener('click', function() {
                 event.stopPropagation();
                 var productId = this.getAttribute('data-product-id');
-                deleteProduct(productId);
+                deleteProduct(productId);   
             });
             });
         function deleteProduct(productId) {
